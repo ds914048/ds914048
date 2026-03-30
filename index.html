@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deepak Singh — Senior Flutter Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* ── RESET ── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+:root{
+  --sky:#54C5F8;--blue:#0175C2;--navy:#02569B;
+  --bg:#050A12;--bg2:#070E1A;
+  --glass:rgba(255,255,255,0.05);
+  --glass-b:rgba(255,255,255,0.1);
+  --text:#E2EDF8;--muted:#5A7080;--muted2:#3A4F60;
+  --grad:linear-gradient(135deg,#54C5F8,#0175C2);
+}
+body{font-family:'Plus Jakarta Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+
+/* ── MESH ORBS ── */
+#mesh{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(130px)}
+.o1{width:900px;height:900px;background:radial-gradient(#0175C2,transparent 70%);top:-350px;left:-250px;opacity:.5;animation:f1 20s ease-in-out infinite}
+.o2{width:700px;height:700px;background:radial-gradient(#54C5F8,transparent 70%);top:20%;right:-250px;opacity:.25;animation:f2 26s ease-in-out infinite}
+.o3{width:800px;height:800px;background:radial-gradient(#02569B,transparent 70%);bottom:-300px;left:25%;opacity:.4;animation:f3 30s ease-in-out infinite}
+.o4{width:500px;height:500px;background:radial-gradient(#54C5F8,transparent 70%);top:55%;left:55%;opacity:.18;animation:f1 16s ease-in-out infinite reverse}
+@keyframes f1{0%,100%{transform:translate(0,0)}33%{transform:translate(50px,35px)}66%{transform:translate(-35px,70px)}}
+@keyframes f2{0%,100%{transform:translate(0,0)}50%{transform:translate(-70px,-55px)}}
+@keyframes f3{0%,100%{transform:translate(0,0)}40%{transform:translate(40px,-50px)}80%{transform:translate(-50px,30px)}}
+
+/* ── DOT GRID ── */
+#grid-bg{position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(rgba(84,197,248,0.18) 1px,transparent 1px);background-size:36px 36px;mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%)}
+
+/* ── FLOATING NAV ── */
+#fnav{
+  position:fixed;top:20px;left:50%;transform:translateX(-50%);
+  z-index:1000;
+  display:flex;align-items:center;
+  background:rgba(5,10,18,0.75);
+  backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);
+  border:1px solid rgba(84,197,248,0.18);
+  border-radius:100px;
+  padding:6px 8px 6px 20px;
+  gap:2px;
+  box-shadow:0 8px 40px rgba(1,117,194,0.2),0 0 0 1px rgba(255,255,255,0.05) inset;
+  transition:box-shadow .3s;
+  white-space:nowrap;
+}
+#fnav:hover{box-shadow:0 12px 50px rgba(1,117,194,0.3),0 0 0 1px rgba(255,255,255,0.08) inset}
+.nav-brand{
+  font-size:.95rem;font-weight:800;
+  background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  margin-right:1rem;letter-spacing:-.02em;
+}
+.nav-links{display:flex;gap:2px;list-style:none}
+.nav-links a{
+  font-size:.78rem;font-weight:500;color:var(--muted);
+  text-decoration:none;padding:.45rem .9rem;border-radius:100px;
+  transition:color .2s,background .2s;
+  letter-spacing:.01em;
+}
+.nav-links a:hover,.nav-links a.active{color:#fff;background:rgba(84,197,248,0.12)}
+.nav-links a.active{color:var(--sky)}
+.nav-hire{
+  margin-left:.5rem;
+  font-size:.78rem;font-weight:700;
+  background:var(--grad);color:#fff;
+  padding:.48rem 1.2rem;border-radius:100px;
+  text-decoration:none;
+  box-shadow:0 4px 18px rgba(1,117,194,.4);
+  transition:opacity .2s,transform .2s,box-shadow .2s;
+}
+.nav-hire:hover{opacity:.9;transform:translateY(-1px);box-shadow:0 6px 28px rgba(1,117,194,.55)}
+
+/* ── HERO ── */
+#hero{
+  position:relative;z-index:1;
+  min-height:100vh;
+  display:grid;grid-template-columns:1fr 1fr;
+  align-items:center;gap:3rem;
+  padding:100px 8vw 5rem;
+}
+.hero-avail{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;
+  color:#4ADE80;
+  background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.22);
+  padding:.38rem 1rem;border-radius:100px;margin-bottom:1.8rem;
+}
+.hero-avail::before{content:'';width:7px;height:7px;border-radius:50%;background:#4ADE80;animation:blink 2s ease infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+h1{
+  font-size:clamp(3rem,5.5vw,5rem);font-weight:800;
+  line-height:.96;letter-spacing:-.04em;color:#fff;
+  margin-bottom:1.4rem;
+}
+.grad-text{
+  background:linear-gradient(135deg,#54C5F8 0%,#027DFD 45%,#54C5F8 100%);
+  background-size:200%;
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:shimmer 4s linear infinite;
+}
+@keyframes shimmer{0%{background-position:0%}100%{background-position:200%}}
+.hero-desc{font-size:1rem;color:var(--muted);line-height:1.82;max-width:460px;margin-bottom:2.5rem}
+.hero-desc strong{color:var(--text);font-weight:600}
+.hero-btns{display:flex;gap:.9rem;flex-wrap:wrap;margin-bottom:3rem}
+.btn-a{
+  font-size:.88rem;font-weight:700;
+  background:var(--grad);color:#fff;
+  padding:.85rem 2rem;border-radius:12px;text-decoration:none;
+  box-shadow:0 4px 28px rgba(1,117,194,.45);
+  transition:transform .2s,box-shadow .2s;display:flex;align-items:center;gap:.5rem;
+}
+.btn-a:hover{transform:translateY(-2px);box-shadow:0 8px 40px rgba(1,117,194,.6)}
+.btn-b{
+  font-size:.88rem;font-weight:600;color:var(--text);
+  padding:.85rem 2rem;border-radius:12px;text-decoration:none;
+  border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.05);
+  backdrop-filter:blur(10px);
+  transition:border-color .2s,color .2s,background .2s;display:flex;align-items:center;gap:.5rem;
+}
+.btn-b:hover{border-color:rgba(84,197,248,.4);color:var(--sky);background:rgba(84,197,248,.07)}
+.hero-stats{
+  display:inline-flex;gap:0;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(255,255,255,.09);
+  border-radius:14px;overflow:hidden;
+}
+.hs{padding:.95rem 1.5rem;display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.07)}
+.hs:last-child{border-right:none}
+.hs-n{font-size:1.75rem;font-weight:800;color:#fff;line-height:1;letter-spacing:-.03em}
+.hs-n span{background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hs-l{font-size:.65rem;color:var(--muted);text-transform:uppercase;letter-spacing:.09em;margin-top:.2rem}
+
+/* ── HERO RIGHT ── */
+.hero-right{position:relative;display:flex;justify-content:center;align-items:center;height:580px}
+/* PHOTO CIRCLE — this is where Deepak's photo goes */
+.photo-circle{
+  width:340px;height:340px;border-radius:50%;
+  position:relative;z-index:2;
+  overflow:hidden;
+  border:2px solid rgba(84,197,248,.25);
+  box-shadow:0 0 0 8px rgba(84,197,248,.06),0 0 0 16px rgba(1,117,194,.04),0 24px 80px rgba(1,117,194,.3);
+}
+.photo-circle img{
+  width:100%;height:100%;object-fit:cover;object-position:center top;
+  filter:grayscale(10%) contrast(1.05);
+}
+/* placeholder when no photo */
+.photo-placeholder{
+  width:100%;height:100%;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;
+  background:linear-gradient(135deg,rgba(1,117,194,.2),rgba(84,197,248,.1));
+}
+.photo-placeholder .icon{font-size:4rem;opacity:.6}
+.photo-placeholder p{font-size:.8rem;color:var(--muted);text-align:center;line-height:1.5;padding:0 1.5rem}
+.photo-placeholder code{font-size:.72rem;background:rgba(84,197,248,.15);color:var(--sky);padding:.2rem .5rem;border-radius:4px}
+/* glow ring animation */
+.photo-ring{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:380px;height:380px;border-radius:50%;
+  border:1px solid rgba(84,197,248,.15);
+  animation:ring-pulse 3s ease infinite;
+}
+.photo-ring2{
+  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:430px;height:430px;border-radius:50%;
+  border:1px dashed rgba(84,197,248,.08);
+  animation:ring-pulse 3s ease infinite .8s;
+}
+@keyframes ring-pulse{0%,100%{opacity:1;transform:translate(-50%,-50%) scale(1)}50%{opacity:.5;transform:translate(-50%,-50%) scale(1.03)}}
+/* floating tags */
+.ftag{
+  position:absolute;
+  background:rgba(5,10,18,.88);
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:14px;padding:.6rem .95rem;
+  white-space:nowrap;z-index:3;
+  box-shadow:0 8px 24px rgba(0,0,0,.4);
+}
+.ftag-icon{font-size:.95rem;margin-bottom:.15rem}
+.ftag-lbl{font-size:.7rem;font-weight:700;color:#fff}
+.ftag-sub{font-size:.6rem;color:var(--muted);margin-top:.05rem}
+.ft1{bottom:60px;right:-10px}.ft2{top:80px;left:-20px}
+.ft3{top:42%;right:-30px}
+
+/* ── SECTION COMMON ── */
+section{position:relative;z-index:1;padding:6rem 8vw}
+.sec-label{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--sky);margin-bottom:.85rem;
+}
+.sec-label::before{content:'';width:18px;height:1.5px;background:var(--grad)}
+h2{font-size:clamp(1.85rem,3vw,2.8rem);font-weight:800;color:#fff;letter-spacing:-.03em;line-height:1.06}
+.sec-sub{color:var(--muted);font-size:.97rem;max-width:520px;margin:.75rem 0 3.5rem;line-height:1.75}
+.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(84,197,248,.12),transparent);margin:0 8vw}
+
+/* ── ABOUT ── */
+#about{background:rgba(255,255,255,.012)}
+.about-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:4.5rem;align-items:start}
+.about-copy p{color:var(--muted);font-size:.97rem;line-height:1.82;margin-bottom:1.15rem}
+.about-copy strong{color:var(--text);font-weight:600}
+.about-quote{margin-top:1.8rem;padding:1.4rem 1.6rem;border-left:3px solid var(--sky);background:rgba(84,197,248,.06);border-radius:0 14px 14px 0;backdrop-filter:blur(10px)}
+.about-quote p{color:var(--text);font-size:.93rem;font-style:italic;line-height:1.72;margin:0}
+.pillars{border-radius:18px;overflow:hidden;border:1px solid rgba(255,255,255,.07)}
+.pillar{padding:1.25rem 1.5rem;background:rgba(255,255,255,.04);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.05);transition:background .2s;cursor:default}
+.pillar:last-child{border-bottom:none}
+.pillar:hover{background:rgba(84,197,248,.06)}
+.ph{display:flex;align-items:center;gap:.75rem;margin-bottom:.35rem}
+.pi{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:.88rem;flex-shrink:0}
+.pi-a{background:rgba(84,197,248,.14);border:1px solid rgba(84,197,248,.24)}
+.pi-b{background:rgba(1,117,194,.15);border:1px solid rgba(1,117,194,.25)}
+.pi-c{background:rgba(255,184,0,.12);border:1px solid rgba(255,184,0,.2)}
+.pi-d{background:rgba(100,200,120,.12);border:1px solid rgba(100,200,120,.2)}
+.pname{font-weight:700;font-size:.92rem;color:#fff}
+.pillar p{font-size:.82rem;color:var(--muted);line-height:1.62;padding-left:calc(30px + .75rem)}
+
+/* ── SKILLS ── */
+.sk-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.2rem}
+.sk-card{padding:1.5rem;background:rgba(255,255,255,.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.09);border-radius:18px;transition:border-color .3s,transform .3s,background .3s}
+.sk-card:hover{border-color:rgba(84,197,248,.28);transform:translateY(-4px);background:rgba(84,197,248,.05)}
+.skh{display:flex;align-items:center;gap:.65rem;margin-bottom:1.1rem}
+.ski{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;font-size:.9rem;flex-shrink:0}
+.skt{font-size:.77rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:#fff}
+.tags{display:flex;flex-wrap:wrap;gap:.38rem}
+.tag{font-size:.75rem;padding:.26rem .7rem;border-radius:100px;border:1px solid rgba(255,255,255,.09);color:var(--muted);background:rgba(255,255,255,.03);transition:all .2s;cursor:default}
+.tag:hover{border-color:rgba(84,197,248,.38);color:var(--sky);background:rgba(84,197,248,.08)}
+.tag.k{background:rgba(84,197,248,.1);border-color:rgba(84,197,248,.28);color:var(--sky);font-weight:600}
+
+/* ── PROJECTS ── */
+#projects{background:rgba(255,255,255,.012)}
+.pj-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.3rem}
+.pjcard{background:rgba(255,255,255,.05);backdrop-filter:blur(24px);border:1px solid rgba(255,255,255,.09);border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:border-color .3s,transform .3s,box-shadow .3s}
+.pjcard:hover{border-color:rgba(84,197,248,.28);transform:translateY(-6px);box-shadow:0 24px 64px rgba(1,117,194,.18)}
+.pjcard.wide{grid-column:span 2;display:grid;grid-template-columns:1fr 1fr}
+/* project visual area */
+.pvis{height:210px;position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.pjcard.wide .pvis{height:auto;min-height:280px}
+.pv-ft{background:linear-gradient(135deg,#020f22,#01213d 40%,#01447a)}
+.pv-in{background:linear-gradient(135deg,#020e20,#01234a 50%,#0359a0)}
+.pv-co{background:linear-gradient(135deg,#150a22,#2a0d40 50%,#5b1f8a)}
+.pv-ht{background:linear-gradient(135deg,#021a10,#024020 50%,#038040)}
+.pv-lg{background:linear-gradient(135deg,#1a0f02,#3a2006 50%,#7a4a10)}
+.pv-pl{background:linear-gradient(135deg,#011508,#022d12 50%,#04601e)}
+/* mini phone */
+.mphone{width:108px;height:205px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.18);border-radius:22px;overflow:hidden;position:relative;box-shadow:0 8px 32px rgba(0,0,0,.5);flex-shrink:0}
+.mphone.back{position:absolute;right:18%;width:92px;height:180px;transform:rotate(6deg) translateY(12px);opacity:.65;border-radius:20px}
+.mn{position:absolute;top:8px;left:50%;transform:translateX(-50%);width:38px;height:9px;background:#000;border-radius:100px;z-index:2}
+.mscr{position:absolute;inset:0;padding:26px 5px 5px;display:flex;flex-direction:column;gap:3px}
+.mb{height:5px;border-radius:2.5px;background:rgba(255,255,255,.14);margin-bottom:2px}
+.mb.a{background:linear-gradient(90deg,#54C5F8,#0175C2);width:68%}
+.mb.sm{width:48%;height:4px}
+.mc{background:rgba(255,255,255,.09);border-radius:8px;padding:5px;margin-bottom:3px}
+.mc .mb{margin-bottom:2px}.mc .mb.a{width:58%}
+.mnum{font-size:7.5px;color:rgba(255,255,255,.55);font-weight:700;margin:2px 0}
+.vis-glow{position:absolute;inset:0;pointer-events:none}
+/* labels */
+.plbl{font-size:.65rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:.24rem .72rem;border-radius:100px;display:inline-flex;width:fit-content;margin-bottom:.85rem}
+.l-ft{background:rgba(84,197,248,.12);color:var(--sky);border:1px solid rgba(84,197,248,.24)}
+.l-in{background:rgba(1,117,194,.15);color:#7BC8F7;border:1px solid rgba(1,117,194,.25)}
+.l-co{background:rgba(160,80,255,.12);color:#C084FC;border:1px solid rgba(160,80,255,.22)}
+.l-ht{background:rgba(34,197,94,.1);color:#4ADE80;border:1px solid rgba(34,197,94,.2)}
+.l-lg{background:rgba(251,191,36,.1);color:#FBD24B;border:1px solid rgba(251,191,36,.2)}
+.l-ac{background:rgba(84,197,248,.18);color:var(--sky);border:1px solid rgba(84,197,248,.4)}
+.pj-body{padding:1.5rem 1.6rem;flex:1;display:flex;flex-direction:column}
+.pjcard.wide .pj-body{padding:1.8rem 2rem}
+.pj-title{font-size:1.2rem;font-weight:800;color:#fff;letter-spacing:-.02em;margin-bottom:.44rem}
+.pjcard.wide .pj-title{font-size:1.55rem}
+.pj-desc{font-size:.86rem;color:var(--muted);line-height:1.76;margin-bottom:1.1rem;flex:1}
+.pjcard.wide .pj-desc{font-size:.92rem}
+.pmets{display:flex;flex-wrap:wrap;gap:.42rem;margin-bottom:1rem}
+.pmet{display:flex;align-items:center;gap:.33rem;font-size:.72rem;font-weight:600;color:var(--sky);background:rgba(84,197,248,.08);border:1px solid rgba(84,197,248,.17);padding:.25rem .62rem;border-radius:100px}
+.pmet::before{content:'↑';font-size:.62rem}
+.pstk{display:flex;flex-wrap:wrap;gap:.33rem}
+.ps{font-size:.7rem;padding:.2rem .56rem;border-radius:6px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);color:var(--muted)}
+
+/* ── EXPERIENCE ── */
+.exp-wrap{max-width:800px}
+.exp-item{display:grid;grid-template-columns:172px 1fr;gap:2.8rem;padding:2.2rem 0;border-bottom:1px solid rgba(255,255,255,.055)}
+.exp-item:last-child{border-bottom:none}
+.edot{width:9px;height:9px;border-radius:50%;margin-bottom:.55rem}
+.edot-a{background:var(--grad);box-shadow:0 0 10px rgba(84,197,248,.5)}
+.edot-b{background:linear-gradient(135deg,#a855f7,#7c3aed);box-shadow:0 0 10px rgba(168,85,247,.4)}
+.edot-c{background:#f5c518;box-shadow:0 0 10px rgba(245,197,24,.4)}
+.edot-d{background:rgba(100,116,139,1)}
+.eperiod{font-size:.76rem;color:var(--muted);line-height:1.5}
+.eloc{font-size:.69rem;color:var(--muted2);font-style:italic;margin-top:.28rem}
+.erole{font-size:1rem;font-weight:800;color:#fff;margin-bottom:.2rem}
+.eco{font-size:.82rem;font-weight:600;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.9rem}
+.ebullets{list-style:none;display:flex;flex-direction:column;gap:.38rem}
+.ebullets li{font-size:.85rem;color:var(--muted);padding-left:1rem;position:relative;line-height:1.65}
+.ebullets li::before{content:'';position:absolute;left:0;top:.7em;width:5px;height:1.5px;background:var(--sky)}
+.ebullets strong{color:var(--text);font-weight:600}
+
+/* ── SERVICES ── */
+#services{background:rgba(255,255,255,.012)}
+.svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.2rem}
+.svc-card{padding:1.8rem;background:rgba(255,255,255,.05);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.09);border-radius:18px;transition:border-color .3s,background .3s,transform .3s}
+.svc-card:hover{border-color:rgba(84,197,248,.24);background:rgba(84,197,248,.05);transform:translateY(-3px)}
+.svc-ico{width:48px;height:48px;border-radius:14px;display:grid;place-items:center;font-size:1.3rem;background:linear-gradient(135deg,rgba(84,197,248,.15),rgba(1,117,194,.15));border:1px solid rgba(84,197,248,.2);margin-bottom:1rem}
+.svc-title{font-size:.98rem;font-weight:800;color:#fff;margin-bottom:.45rem}
+.svc-desc{font-size:.85rem;color:var(--muted);line-height:1.72}
+
+/* ── CONTACT ── */
+.cnt-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:start}
+.cnt-left p{color:var(--muted);font-size:.97rem;line-height:1.78;margin:1rem 0 2rem}
+.avpill{display:inline-flex;align-items:center;gap:.5rem;font-size:.72rem;font-weight:700;color:#4ADE80;background:rgba(74,222,128,.1);border:1px solid rgba(74,222,128,.24);padding:.37rem .9rem;border-radius:100px;margin-bottom:1.2rem}
+.avpill::before{content:'';width:6px;height:6px;border-radius:50%;background:#4ADE80;animation:blink 2s ease infinite}
+.clinks{display:flex;flex-direction:column;gap:.78rem}
+.clink{display:flex;align-items:center;justify-content:space-between;padding:.95rem 1.2rem;background:rgba(255,255,255,.05);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.09);border-radius:14px;text-decoration:none;color:var(--text);transition:border-color .2s,background .2s}
+.clink:hover{border-color:rgba(84,197,248,.32);background:rgba(84,197,248,.06)}
+.cl-l{display:flex;align-items:center;gap:.82rem}
+.cl-ico{width:36px;height:36px;border-radius:10px;display:grid;place-items:center;font-size:.95rem;flex-shrink:0;background:rgba(84,197,248,.1);border:1px solid rgba(84,197,248,.2)}
+.cl-lbl{font-size:.87rem;font-weight:600;color:#fff}
+.cl-val{font-size:.73rem;color:var(--muted);margin-top:.1rem}
+.cl-arr{color:var(--muted);transition:transform .2s,color .2s}
+.clink:hover .cl-arr{transform:translateX(4px);color:var(--sky)}
+.cnt-r{display:flex;flex-direction:column;gap:1.1rem}
+.info-card{padding:1.55rem;background:rgba(255,255,255,.05);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.09);border-radius:18px}
+.ic-title{font-size:.74rem;font-weight:800;letter-spacing:.09em;text-transform:uppercase;color:var(--sky);margin-bottom:.95rem}
+.tpills{display:flex;flex-wrap:wrap;gap:.38rem}
+.tp{font-size:.72rem;padding:.28rem .62rem;border-radius:100px;background:rgba(84,197,248,.08);border:1px solid rgba(84,197,248,.16);color:var(--muted)}
+.build-card{padding:1.55rem;background:linear-gradient(135deg,rgba(84,197,248,.1),rgba(1,117,194,.08));backdrop-filter:blur(18px);border:1px solid rgba(84,197,248,.24);border-radius:18px}
+.bc-tag{font-size:.68rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--sky);margin-bottom:.5rem}
+.bc-name{font-size:1.02rem;font-weight:800;color:#fff;margin-bottom:.3rem}
+.bc-desc{font-size:.82rem;color:var(--muted);line-height:1.65}
+.edu-row{display:flex;align-items:center;gap:.72rem}
+.edu-n{font-size:.87rem;font-weight:600;color:#fff}
+.edu-s{font-size:.73rem;color:var(--muted);margin-top:.1rem}
+
+/* ── FOOTER ── */
+footer{position:relative;z-index:1;padding:2rem 8vw;border-top:1px solid rgba(255,255,255,.06);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem;background:rgba(5,10,18,.6);backdrop-filter:blur(12px)}
+.fl{font-size:1rem;font-weight:800;background:var(--grad);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+footer p{font-size:.78rem;color:var(--muted)}
+
+/* ── REVEAL ── */
+.rv{opacity:0;transform:translateY(26px);transition:opacity .6s ease,transform .6s ease}
+.rv.on{opacity:1;transform:translateY(0)}
+.rv.d1{transition-delay:.1s}.rv.d2{transition-delay:.2s}.rv.d3{transition-delay:.3s}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  #hero{grid-template-columns:1fr;padding-top:90px}
+  .hero-right{display:none}
+  .about-grid,.cnt-grid,.pj-grid{grid-template-columns:1fr}
+  .pjcard.wide{grid-column:span 1;display:flex}
+  .pjcard.wide .pvis{min-height:200px}
+  .sk-grid{grid-template-columns:1fr 1fr}
+  .exp-item{grid-template-columns:1fr}
+  .svc-grid{grid-template-columns:1fr}
+  #fnav .nav-links{display:none}
+  .hero-stats{flex-wrap:wrap}
+}
+</style>
+</head>
+<body>
+
+<!-- MESH + GRID -->
+<div id="mesh"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="orb o4"></div></div>
+<div id="grid-bg"></div>
+
+<!-- ═══════════════════ FLOATING NAV ═══════════════════ -->
+<nav id="fnav">
+  <div class="nav-brand">DS.</div>
+  <ul class="nav-links">
+    <li><a href="#hero">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:deepak.devflutter@gmail.com" class="nav-hire">Hire Me</a>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section id="hero">
+  <div class="rv">
+    <div class="hero-avail">Available for new projects</div>
+    <h1>
+      Building apps<br>
+      <span class="grad-text">banks trust.</span>
+    </h1>
+    <p class="hero-desc">
+      6+ years crafting <strong>financial-grade Flutter apps</strong> — Clean Architecture, AES/RSA encryption, real-time transactions, and 100K+ users trusting every tap.
+    </p>
+    <div class="hero-btns">
+      <a href="#projects" class="btn-a">View Projects →</a>
+      <a href="mailto:deepak.devflutter@gmail.com" class="btn-b">✉ Get in Touch</a>
+    </div>
+    <div class="hero-stats">
+      <div class="hs"><div class="hs-n">6<span>+</span></div><div class="hs-l">Years Flutter</div></div>
+      <div class="hs"><div class="hs-n">1<span>L+</span></div><div class="hs-l">Downloads</div></div>
+      <div class="hs"><div class="hs-n">40<span>%</span></div><div class="hs-l">App Size Cut</div></div>
+      <div class="hs"><div class="hs-n">7<span>+</span></div><div class="hs-l">Devs Mentored</div></div>
+    </div>
+  </div>
+
+  <!-- PHOTO RIGHT -->
+  <div class="hero-right rv d2">
+    <div class="photo-ring"></div>
+    <div class="photo-ring2"></div>
+
+    <!-- ★ PHOTO CIRCLE — replace photo.jpg with your actual photo file name -->
+    <div class="photo-circle">
+      <img
+        src="photo.jpg"
+        alt="Deepak Singh"
+        onerror="this.style.display='none'; document.getElementById('photo-ph').style.display='flex'"
+      >
+      <div class="photo-placeholder" id="photo-ph" style="display:none">
+        <span class="icon">👨‍💻</span>
+        <p>Place your photo here.<br>Rename it <code>photo.jpg</code><br>and put it next to<br><code>index.html</code></p>
+      </div>
+    </div>
+
+    <!-- floating badges -->
+    <div class="ftag ft1">
+      <div class="ftag-icon">🔐</div>
+      <div class="ftag-lbl">AES-256 Encrypted</div>
+      <div class="ftag-sub">Financial-grade security</div>
+    </div>
+    <div class="ftag ft2">
+      <div class="ftag-icon">⚡</div>
+      <div class="ftag-lbl">33% faster load</div>
+      <div class="ftag-sub">Optimised performance</div>
+    </div>
+    <div class="ftag ft3">
+      <div class="ftag-icon">📱</div>
+      <div class="ftag-lbl">1L+ Downloads</div>
+      <div class="ftag-sub">Production scale</div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ ABOUT ═══════════════════ -->
+<section id="about">
+  <div class="sec-label rv">About Me</div>
+  <h2 class="rv">Architecture before aesthetics.<br>Security before shortcuts.</h2>
+  <div class="about-grid rv">
+    <div class="about-copy">
+      <p>I'm <strong>Deepak Singh</strong>, a Senior Flutter Engineer with 6+ years shipping production apps trusted by real users with real money. My work spans <strong>Fintech, Insurance, and Consumer platforms</strong> across India, Canada, and Tanzania.</p>
+      <p>At PureSoftware Technologies I lead mobile architecture, mentor 7+ engineers, and have measurably improved every product — 40% smaller apps, 33% faster load times, 25% faster dev cycles.</p>
+      <p>I design systems that are <strong>testable, scalable, and secure from day one</strong> — because refactoring a live fintech app holding user funds is not an option.</p>
+      <div class="about-quote">
+        <p>"I prioritise correctness, reliability, and user trust over cosmetic UI. Every architectural decision I make is business-justified — because I've seen what happens when it isn't."</p>
+      </div>
+    </div>
+    <div class="pillars">
+      <div class="pillar"><div class="ph"><div class="pi pi-a">🏗️</div><div class="pname">Architecture-First</div></div><p>Clean Architecture + MVVM. Business logic is UI-independent and testable — safe to evolve 2 years into production.</p></div>
+      <div class="pillar"><div class="ph"><div class="pi pi-b">🔐</div><div class="pname">Security by Design</div></div><p>AES-256, RSA, SHA-256 encryption. JWT + device binding. Financial-grade security from day one, not bolted on later.</p></div>
+      <div class="pillar"><div class="ph"><div class="pi pi-c">⚡</div><div class="pname">Performance-Driven</div></div><p>40% size reduction. 33% faster load. Optimised for low-end devices because every user in every market matters.</p></div>
+      <div class="pillar"><div class="ph"><div class="pi pi-d">🧠</div><div class="pname">Predictable State</div></div><p>Bloc for complex financial workflows. Clear data flow, easier debugging, and safe feature evolution at scale.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ SKILLS ═══════════════════ -->
+<section id="skills">
+  <div class="sec-label rv">Technical Stack</div>
+  <h2 class="rv">What I work with.</h2>
+  <p class="sec-sub rv">Tools and patterns I use daily to build secure, high-performance mobile products.</p>
+  <div class="sk-grid">
+    <div class="sk-card rv d1"><div class="skh"><div class="ski" style="background:rgba(84,197,248,.12);border:1px solid rgba(84,197,248,.22)">📱</div><div class="skt">Core Platform</div></div><div class="tags"><span class="tag k">Flutter</span><span class="tag k">Dart</span><span class="tag">Firebase</span><span class="tag">iOS / Android</span><span class="tag">Web App</span></div></div>
+    <div class="sk-card rv d2"><div class="skh"><div class="ski" style="background:rgba(1,117,194,.15);border:1px solid rgba(1,117,194,.25)">🧱</div><div class="skt">Architecture & State</div></div><div class="tags"><span class="tag k">Clean Architecture</span><span class="tag k">Bloc / Cubit</span><span class="tag">MVVM</span><span class="tag">Provider</span><span class="tag">GetX</span><span class="tag">Repository Pattern</span><span class="tag">get_it / DI</span></div></div>
+    <div class="sk-card rv d3"><div class="skh"><div class="ski" style="background:rgba(255,184,0,.12);border:1px solid rgba(255,184,0,.2)">🔐</div><div class="skt">Security</div></div><div class="tags"><span class="tag k">AES-256</span><span class="tag k">RSA / SHA-256</span><span class="tag">OAuth 2.0</span><span class="tag">JWT</span><span class="tag">SSL Pinning</span><span class="tag">Device Binding</span><span class="tag">KYC</span></div></div>
+    <div class="sk-card rv d1"><div class="skh"><div class="ski" style="background:rgba(160,80,255,.12);border:1px solid rgba(160,80,255,.2)">📡</div><div class="skt">APIs & Data</div></div><div class="tags"><span class="tag k">GraphQL</span><span class="tag">REST</span><span class="tag">Dio</span><span class="tag">Hive</span><span class="tag">Freezed</span><span class="tag">NoSQL</span><span class="tag">WebSockets</span></div></div>
+    <div class="sk-card rv d2"><div class="skh"><div class="ski" style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.18)">⚙️</div><div class="skt">DevOps & Tooling</div></div><div class="tags"><span class="tag">CI/CD</span><span class="tag">Git</span><span class="tag">GCP</span><span class="tag">Crashlytics</span><span class="tag">Sentry</span><span class="tag">Figma</span><span class="tag">JIRA / Agile</span></div></div>
+    <div class="sk-card rv d3"><div class="skh"><div class="ski" style="background:rgba(84,197,248,.1);border:1px solid rgba(84,197,248,.18)">🔗</div><div class="skt">Integrations</div></div><div class="tags"><span class="tag">Razorpay / Stripe</span><span class="tag">FCM</span><span class="tag">Twilio Video</span><span class="tag">Deep Linking</span><span class="tag">In-app Purchase</span><span class="tag">Remote Config</span></div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ PROJECTS ═══════════════════ -->
+<section id="projects">
+  <div class="sec-label rv">Featured Work</div>
+  <h2 class="rv">Apps I've shipped.</h2>
+  <p class="sec-sub rv">Production systems handling real transactions, real compliance, and real scale.</p>
+  <div class="pj-grid">
+
+    <!-- WIDE: iTrust -->
+    <div class="pjcard wide rv">
+      <div class="pvis pv-ft">
+        <div class="mphone" style="transform:rotate(-5deg) translateX(-28px) translateY(8px)">
+          <div class="mn"></div><div class="mscr">
+            <div class="mb a"></div><div class="mnum">TZS 24,857</div>
+            <div class="mc"><div class="mb a"></div><div class="mb"></div><div class="mb sm"></div></div>
+            <div class="mc"><div class="mb a" style="width:78%"></div><div class="mb sm"></div></div>
+            <div class="mb sm" style="margin-top:3px"></div><div class="mb sm" style="width:38%"></div>
+          </div>
+        </div>
+        <div class="mphone" style="transform:rotate(5deg) translateX(18px);z-index:2;opacity:.9">
+          <div class="mn"></div><div class="mscr">
+            <div class="mb a" style="width:52%"></div><div class="mnum">KYC ✓ Verified</div>
+            <div class="mc"><div class="mb a"></div><div class="mb"></div></div>
+            <div class="mc"><div class="mb" style="width:88%;background:rgba(74,222,128,.5)"></div><div class="mb sm"></div></div>
+            <div class="mb sm"></div><div class="mb sm" style="width:58%"></div>
+          </div>
+        </div>
+        <div class="vis-glow" style="background:radial-gradient(ellipse at center,rgba(1,117,194,.28) 0%,transparent 70%)"></div>
+      </div>
+      <div class="pj-body">
+        <div class="plbl l-ft">Fintech · Flagship</div>
+        <div class="pj-title">iTrust Finance</div>
+        <p class="pj-desc">End-to-end financial platform for Tanzania — stocks, mutual funds, bonds, wallets, loans. I architected the entire mobile foundation: KYC onboarding workflows, AES-256 encrypted transaction flows, MNO-based payments, and regulatory compliance. Optimised for low-end devices in the target market.</p>
+        <div class="pmets"><span class="pmet">40% smaller app</span><span class="pmet">33% faster load</span><span class="pmet">AES + RSA encrypted</span><span class="pmet">Full KYC pipeline</span></div>
+        <div class="pstk"><span class="ps">Flutter · Dart</span><span class="ps">Clean Architecture</span><span class="ps">Bloc</span><span class="ps">AES-256 / RSA / SHA-256</span><span class="ps">REST APIs</span><span class="ps">KYC</span></div>
+      </div>
+    </div>
+
+    <!-- Polifyx -->
+    <div class="pjcard rv d1">
+      <div class="pvis pv-in">
+        <div class="mphone"><div class="mn"></div><div class="mscr"><div class="mb a"></div><div class="mnum">1L+ Downloads</div><div class="mc"><div class="mb a"></div><div class="mb"></div><div class="mb sm"></div></div><div class="mc"><div class="mb" style="width:72%;background:rgba(59,130,246,.6)"></div><div class="mb sm"></div></div><div class="mb sm"></div></div></div>
+        <div class="vis-glow" style="background:radial-gradient(ellipse at center,rgba(1,117,194,.22) 0%,transparent 70%)"></div>
+      </div>
+      <div class="pj-body">
+        <div class="plbl l-in">Insurance · 1L+ Downloads</div>
+        <div class="pj-title">Polifyx</div>
+        <p class="pj-desc">Insurance management app scaled to 1 Lakh+ downloads. Policy validation, claims, and grievance workflows digitised into a transparent mobile experience. Optimised for stability at consumer scale.</p>
+        <div class="pmets"><span class="pmet">1L+ downloads</span><span class="pmet">Both stores live</span></div>
+        <div class="pstk"><span class="ps">Flutter</span><span class="ps">Firebase</span><span class="ps">Bloc</span><span class="ps">Hive</span><span class="ps">Deep Linking</span></div>
+      </div>
+    </div>
+
+    <!-- Maple Dating -->
+    <div class="pjcard rv d2">
+      <div class="pvis pv-co">
+        <div class="mphone"><div class="mn"></div><div class="mscr"><div class="mb" style="background:linear-gradient(90deg,#a855f7,#ec4899);width:64%"></div><div class="mnum">Maple Dating</div><div class="mc"><div class="mb" style="background:rgba(168,85,247,.5);width:78%"></div><div class="mb sm"></div></div><div class="mc"><div class="mb" style="background:rgba(236,72,153,.4);width:55%"></div><div class="mb sm"></div></div><div class="mb sm"></div></div></div>
+        <div class="vis-glow" style="background:radial-gradient(ellipse at center,rgba(91,31,138,.3) 0%,transparent 70%)"></div>
+      </div>
+      <div class="pj-body">
+        <div class="plbl l-co">Consumer · Canada</div>
+        <div class="pj-title">Maple Dating</div>
+        <p class="pj-desc">Consumer-scale Flutter app for Canada. Firebase Remote Config for dynamic feature rollout, in-app purchases, OAuth 2.0 + device binding auth, clean architecture for high-traffic production use.</p>
+        <div class="pmets"><span class="pmet">Remote config driven</span><span class="pmet">IAP integrated</span></div>
+        <div class="pstk"><span class="ps">Flutter</span><span class="ps">Firebase</span><span class="ps">Bloc</span><span class="ps">OAuth 2.0</span><span class="ps">GraphQL</span></div>
+      </div>
+    </div>
+
+    <!-- GoCare -->
+    <div class="pjcard rv d1">
+      <div class="pvis pv-ht">
+        <div class="mphone"><div class="mn"></div><div class="mscr"><div class="mb" style="background:linear-gradient(90deg,#22c55e,#16a34a);width:70%"></div><div class="mnum">GoCare Health</div><div class="mc"><div class="mb" style="background:rgba(34,197,94,.6);width:82%"></div><div class="mb sm"></div></div><div class="mc"><div class="mb" style="background:rgba(34,197,94,.4);width:52%"></div><div class="mb sm"></div></div><div class="mb sm"></div></div></div>
+        <div class="vis-glow" style="background:radial-gradient(ellipse at center,rgba(3,128,64,.28) 0%,transparent 70%)"></div>
+      </div>
+      <div class="pj-body">
+        <div class="plbl l-ht">Health</div>
+        <div class="pj-title">GoCare</div>
+        <p class="pj-desc">Real-time health monitoring with alerts and emergency workflows. Connects users to doctors via Twilio HD video calls, SMS, and email for immediate assistance in critical situations.</p>
+        <div class="pmets"><span class="pmet">Real-time alerts</span><span class="pmet">Twilio HD video</span></div>
+        <div class="pstk"><span class="ps">Flutter</span><span class="ps">Firebase</span><span class="ps">Twilio</span><span class="ps">FCM</span></div>
+      </div>
+    </div>
+
+    <!-- LawClick -->
+    <div class="pjcard rv d2">
+      <div class="pvis pv-lg">
+        <div class="mphone"><div class="mn"></div><div class="mscr"><div class="mb" style="background:linear-gradient(90deg,#f59e0b,#d97706);width:62%"></div><div class="mnum">LawClick</div><div class="mc"><div class="mb" style="background:rgba(245,158,11,.5);width:78%"></div><div class="mb sm"></div></div><div class="mc"><div class="mb" style="background:rgba(245,158,11,.3);width:55%"></div><div class="mb sm"></div></div><div class="mb sm"></div></div></div>
+        <div class="vis-glow" style="background:radial-gradient(ellipse at center,rgba(122,74,16,.3) 0%,transparent 70%)"></div>
+      </div>
+      <div class="pj-body">
+        <div class="plbl l-lg">Legal Marketplace</div>
+        <div class="pj-title">LawClick</div>
+        <p class="pj-desc">Legal service marketplace independently delivered from first commit to both Play Store and App Store. Real-time service tracking, clean architecture, full solo ownership.</p>
+        <div class="pmets"><span class="pmet">Solo delivery</span><span class="pmet">Both stores live</span></div>
+        <div class="pstk"><span class="ps">Flutter</span><span class="ps">Firebase</span><span class="ps">Real-time</span></div>
+      </div>
+    </div>
+
+    <!-- NainiLeaf -->
+    <div class="pjcard rv d3" style="border-color:rgba(84,197,248,.2)">
+      <div class="pvis pv-pl">
+        <div class="mphone"><div class="mn"></div><div class="mscr"><div class="mb a" style="width:58%"></div><div class="mnum">NainiLeaf 🌿</div><div class="mc"><div class="mb" style="background:rgba(4,96,30,.8);width:72%"></div><div class="mb sm"></div></div><div class="mc"><div class="mb a" style="width:52%"></div><div class="mb sm"></div></div><div class="mb sm"></div></div></div>
+        <div class="vis-glow" style="background:radial-gradient(ellipse at center,rgba(4,96,30,.32) 0%,transparent 70%)"></div>
+      </div>
+      <div class="pj-body">
+        <div class="plbl l-ac">🔥 Active Build</div>
+        <div class="pj-title">NainiLeaf</div>
+        <p class="pj-desc">Premium plant care & e-commerce app for India. Shopify Storefront API via GraphQL, metaobject-driven home screen, Hive-persisted cart, go_router, full clean architecture.</p>
+        <div class="pmets"><span class="pmet">GraphQL + Shopify</span><span class="pmet">Clean arch</span></div>
+        <div class="pstk"><span class="ps">Flutter</span><span class="ps">GraphQL</span><span class="ps">Shopify API</span><span class="ps">Bloc</span><span class="ps">Hive</span><span class="ps">go_router</span></div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ EXPERIENCE ═══════════════════ -->
+<section id="experience">
+  <div class="sec-label rv">Work History</div>
+  <h2 class="rv">Where I've shipped.</h2>
+  <p class="sec-sub rv">6+ years across fintech, consumer, health, and legal platforms — remote-first from day one.</p>
+  <div class="exp-wrap rv">
+    <div class="exp-item">
+      <div><div class="edot edot-a"></div><div class="eperiod">Sep 2023 — Present</div><div class="eloc">Noida · Remote</div></div>
+      <div><div class="erole">Sr. Software Engineer</div><div class="eco">PureSoftware Technologies Pvt Ltd</div>
+        <ul class="ebullets">
+          <li>Mentored <strong>7+ developers</strong> via code reviews and architecture guidance</li>
+          <li>Led migration to <strong>MVVM + Clean Architecture + Repository Pattern</strong></li>
+          <li>Reduced app size by <strong>40%</strong> via code splitting and asset optimisation</li>
+          <li>Improved load time by <strong>33%</strong> through lazy loading and optimisation</li>
+          <li>Integrated <strong>AES, RSA, SHA-256</strong> for sensitive data handling</li>
+          <li>Accelerated delivery by <strong>25%</strong> using AI-assisted workflows</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div><div class="edot edot-b"></div><div class="eperiod">Jul 2021 — Sep 2023</div><div class="eloc">Canada · Remote</div></div>
+      <div><div class="erole">Sr. Software Engineer</div><div class="eco">Maple Dating Inc.</div>
+        <ul class="ebullets">
+          <li>State management with <strong>Bloc (preferred)</strong>, Provider, GetX</li>
+          <li>Deep linking, <strong>GraphQL + REST API</strong> integration</li>
+          <li>Hive local DB, <strong>Firebase Remote Config</strong> for feature flags</li>
+          <li>Secure auth via <strong>OAuth 2.0, JWT, SSL</strong>, device binding</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div><div class="edot edot-c"></div><div class="eperiod">Sep 2020 — Jul 2021</div><div class="eloc">Jaipur</div></div>
+      <div><div class="erole">Software Engineer</div><div class="eco">4SEEKERS Technology Pvt Ltd</div>
+        <ul class="ebullets">
+          <li>i18n localisation for multi-language support</li>
+          <li>Push notifications with <strong>FCM</strong>, HD video calling with <strong>Twilio</strong></li>
+          <li>Crashlytics integration for production error tracking</li>
+        </ul>
+      </div>
+    </div>
+    <div class="exp-item">
+      <div><div class="edot edot-d"></div><div class="eperiod">Jan 2020 — Sep 2020</div><div class="eloc">Jaipur</div></div>
+      <div><div class="erole">Software Developer</div><div class="eco">Pavehouse Exports Overseas Pvt Ltd</div>
+        <ul class="ebullets">
+          <li>Play Store and App Store release ownership</li>
+          <li>Integrated <strong>Razorpay & Stripe</strong> payment gateways</li>
+          <li>Optimised and stabilised pre-built Flutter applications</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ SERVICES ═══════════════════ -->
+<section id="services">
+  <div class="sec-label rv">What I Build</div>
+  <h2 class="rv">How I can help.</h2>
+  <p class="sec-sub rv">Specialised in high-stakes mobile products where performance, security, and correctness are non-negotiable.</p>
+  <div class="svc-grid rv">
+    <div class="svc-card"><div class="svc-ico">💳</div><div class="svc-title">Fintech & Payments</div><p class="svc-desc">KYC onboarding, encrypted wallet systems, MNO/payment gateway integration, transaction audit trails, and financial-grade security architecture from the ground up.</p></div>
+    <div class="svc-card"><div class="svc-ico">🏗️</div><div class="svc-title">Architecture & Migration</div><p class="svc-desc">Legacy Flutter codebase migration to Clean Architecture + MVVM + Bloc. Reduce tech debt, improve testability, and enable safe scaling without rewriting from scratch.</p></div>
+    <div class="svc-card"><div class="svc-ico">⚡</div><div class="svc-title">Performance Optimisation</div><p class="svc-desc">App size reduction, startup time improvement, widget rebuild optimisation. Proven 40% size reduction and 33% load time improvement on live production apps.</p></div>
+    <div class="svc-card"><div class="svc-ico">📱</div><div class="svc-title">Cross-Platform Mobile</div><p class="svc-desc">Production-ready iOS and Android apps from a single Flutter codebase. Full ownership from architecture design to Play Store and App Store deployment.</p></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════ CONTACT ═══════════════════ -->
+<section id="contact">
+  <div class="cnt-grid">
+    <div class="rv">
+      <div class="sec-label">Get in Touch</div>
+      <div class="avpill">Open to fintech opportunities</div>
+      <h2>Let's build something<br>that matters.</h2>
+      <p>Looking for senior Flutter roles at product companies — fintech, payments, high-security mobile. Remote-first preferred. I respond within 24 hours.</p>
+      <div class="clinks">
+        <a href="mailto:deepak.devflutter@gmail.com" class="clink">
+          <div class="cl-l"><div class="cl-ico">✉️</div><div><div class="cl-lbl">Email</div><div class="cl-val">deepak.devflutter@gmail.com</div></div></div>
+          <span class="cl-arr">→</span>
+        </a>
+        <a href="https://linkedin.com/in/smiledeepak" target="_blank" class="clink">
+          <div class="cl-l"><div class="cl-ico">💼</div><div><div class="cl-lbl">LinkedIn</div><div class="cl-val">linkedin.com/in/smiledeepak</div></div></div>
+          <span class="cl-arr">→</span>
+        </a>
+        <a href="tel:+918386915528" class="clink">
+          <div class="cl-l"><div class="cl-ico">📞</div><div><div class="cl-lbl">Phone</div><div class="cl-val">+91 83869 15528 · Delhi, India</div></div></div>
+          <span class="cl-arr">→</span>
+        </a>
+      </div>
+    </div>
+    <div class="cnt-r rv d2">
+      <div class="info-card">
+        <div class="ic-title">Key Technologies</div>
+        <div class="tpills">
+          <span class="tp">Flutter</span><span class="tp">Dart</span><span class="tp">Firebase</span>
+          <span class="tp">Bloc</span><span class="tp">GraphQL</span><span class="tp">REST</span>
+          <span class="tp">AES-256</span><span class="tp">OAuth 2.0</span><span class="tp">CI/CD</span>
+          <span class="tp">Hive</span><span class="tp">GCP</span><span class="tp">Figma</span>
+        </div>
+      </div>
+      <div class="info-card">
+        <div class="ic-title">Education</div>
+        <div class="edu-row">
+          <span style="font-size:1.2rem">🎓</span>
+          <div><div class="edu-n">B.Tech — Computer Science Engineering</div><div class="edu-s">JECRC University, Jaipur · 2016–2020 · 6.87 CGPA</div></div>
+        </div>
+      </div>
+      <div class="build-card">
+        <div class="bc-tag">Currently Building</div>
+        <div class="bc-name">NainiLeaf 🌿</div>
+        <div class="bc-desc">Premium plant care & e-commerce for India. Flutter + Shopify GraphQL + Clean Architecture + Bloc.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <div class="fl">Deepak Singh.</div>
+  <p>Senior Flutter Engineer · Delhi, India · Open to remote</p>
+  <p>© 2026 All rights reserved</p>
+</footer>
+
+<script>
+// ── scroll reveal
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('on') })
+},{threshold:.07,rootMargin:'0px 0px -50px 0px'})
+document.querySelectorAll('.rv').forEach(el=>io.observe(el))
+
+// ── active nav link on scroll
+const sections = document.querySelectorAll('section[id]')
+const links = document.querySelectorAll('#fnav .nav-links a')
+const navObs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      links.forEach(a=>a.classList.remove('active'))
+      const a = document.querySelector(`#fnav .nav-links a[href="#${e.target.id}"]`)
+      if(a) a.classList.add('active')
+    }
+  })
+},{threshold:.35})
+sections.forEach(s=>navObs.observe(s))
+
+// ── smooth scroll for nav links
+links.forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault()
+    const target = document.querySelector(a.getAttribute('href'))
+    if(target) target.scrollIntoView({behavior:'smooth',block:'start'})
+  })
+})
+</script>
+</body>
+</html>
